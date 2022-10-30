@@ -13,8 +13,15 @@
     if(isset($_GET['table'])){
         $TABLE_NAME = $_GET['table'];
     }
-    $query = "select * from customers";  
-    $res = mysqli_query($conn, $query) or die(mysql_error());
+    
+    $query = "SELECT * FROM $TABLE_NAME";  
+    $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
+    $table_row_names = array();
+    $table_row_num = mysqli_num_fields($res);
+    for($i=0 ;$i < $table_row_num ;$i++){ //用一个数组存储所有列的名字
+        $table_each_row = mysqli_fetch_field($res); //获取第i个列名字
+        array_push($table_row_names,$table_each_row->name); //添加数组到尾部
+    }
 ?>
     <body>
         <div class="headlogo"><?php echo $TABLE_NAME ?></div>
@@ -46,11 +53,11 @@
                     cellpadding="5px" cellspacing="5px"
                     border="5">
                 <tr>
-                    <th>CID</th>
-                    <th>NAME</th>
-                    <th>CITY</th>
-                    <th>MADE</th>
-                    <th>LAST-TIME</th>
+<?php
+    for($i=0 ;$i < $table_row_num ;$i++){
+        echo "<th>$table_row_names[$i]</th>";
+    }
+?>
                     <th>ADD</th>
                     <th>DELETE</th>
                 </tr>
@@ -60,70 +67,70 @@
     if($row){
         for($i = 0 ;$i < $row ;$i++){
             $dbrow=mysqli_fetch_array($res); //获取每一行的段数据
-            $cid = $dbrow['cid'];
-            $cname = $dbrow['cname'];
-            $city = $dbrow['city'];
-            $visits_made = $dbrow['visits_made'];
-            $visits_time = $dbrow['last_visit_time'];
-
-?>
-
-
-
- <?php  //插入到这里的表格当中
-    echo "
-        <tr>
-            <td>$cid</td>
-            <td>$cname</td>
-            <td>$city</td>
-            <td>$visits_made</td>
-            <td>$visits_time</td>
-            <td><a href=\"edit_dat.php?id=$cid&table=$TABLE_NAME\">修改</a></td>
-            <td><a href=\"delete_dat.php?id=$cid&table=$TABLE_NAME\" 
+            $data_each_row = array();
+            echo "<tr>";
+            for($j = 0 ;$j < $table_row_num ;$j++){
+                array_push($data_each_row,$dbrow[$table_row_names[$j]]);
+                echo "<td>$data_each_row[$j]</td>";
+            }
+            echo "
+            <td><a href=\"edit_dat.php?id=$data_each_row[0]&table=$TABLE_NAME\">修改</a></td>
+            <td><a href=\"delete_dat.php?id=$data_each_row[0]&table=$TABLE_NAME\" 
                 onclick=\"return confirm('确定删除吗？');\">删除</a></td> 
-        </tr>
-    ";
+            </tr>
+            ";
         }
     }
 ?> 
 
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"
+            <form action="<?php echo "show_dat.php?table=$TABLE_NAME";?>"
             method='post'>
 <?php
 
 
     if(isset($_POST["plus-syn"]) == "+"){//显示要添加的新的信息
-        echo "
-        <tr>
-            <td><input type='text' name='cid' id='in-text'></td>
-            <td><input type='text' name='cname' id='in-text'></td>
-            <td><input type='text' name='city' id='in-text'></td>
-            <td><input type='text' name='visits_made' id='in-text'></td>
-            <td>Current Time</td>
-            <td><input type='submit' name='change'
-                    value='确定' id='submit-but'></td>
-            <td><a href='./show_dat?table=$TABLE_NAME' id='cancel-but'> 取消</a></td>
-            </tr>
-            ";
+        echo "<tr>";
+        for($i=0 ;$i < $table_row_num;$i++){
+            echo "<td><input type='text' name='$table_row_names[$i]' id='in-text'></td>";
         }
+        echo "
+        <td><input type='submit' name='change'
+                value='确定' id='submit-but'></td>
+        <td><a href='./show_dat?table=$TABLE_NAME' id='cancel-but'> 取消</a></td>
+        </tr>
+        ";
+
+        // echo "
+        // <tr>
+        //     <td><input type='text' name='cid' id='in-text'></td>
+        //     <td><input type='text' name='cname' id='in-text'></td>
+        //     <td><input type='text' name='city' id='in-text'></td>
+        //     <td><input type='text' name='visits_made' id='in-text'></td>
+        //     <td>Current Time</td>
+        //     <td><input type='submit' name='change'
+        //             value='确定' id='submit-but'></td>
+        //     <td><a href='./show_dat?table=$TABLE_NAME' id='cancel-but'> 取消</a></td>
+        //     </tr>
+        //     ";
+    }
     if(isset($_POST["change"]) == "确定"){ //在这里完成数据库的插入
         $cid=$_POST["cid"];
         $cname=$_POST["cname"];
         $city=$_POST["city"];
         $visits_made=$_POST["visits_made"];
-        $visits_time=date("Y-m-d H:i:s");
+        $visits_time=$_POST['last_visit_time'];
         $query = "INSERT INTO customers (cid,cname,city,visits_made,last_visit_time)
          VALUES ('$cid','$cname','$city','$visits_made','$visits_time')";
         $result=mysqli_query($conn,$query) or die(mysqli_error($conn));
         
         if($result){
             echo 
-            "<script language=javascript>window.location.href='show_dat.php';</script>";
+            "<script language=javascript>window.location.href='show_dat.php?table=$TABLE_NAME';</script>";
         }
         else{
             echo 
             "<script language=javascript>window.alert('增添失败,请返回');
-            window.location.href='show_dat.php';</script>";
+            window.location.href='show_dat.php?table=$TABLE_NAME';</script>";
 
         }
 
