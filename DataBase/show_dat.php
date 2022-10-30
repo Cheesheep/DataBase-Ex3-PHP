@@ -35,11 +35,17 @@
             <div class="search-box">
                 <form action="<?php echo "search_dat.php?table=$TABLE_NAME";?>" method="post">
                     <select name="choose" id="">
-                    <option value="cid">cid</option>
+
+<?php
+        for($i=0 ;$i < $table_row_num ;$i++){
+            echo "<option value='$table_row_names[$i]'>$table_row_names[$i]</th>";
+        }
+?>
+                    <!-- <option value="cid">cid</option>
                     <option value="cname">cname</option>
                     <option value="city">city</option>
                     <option value="visits_made">visits_made</option>
-                    <option value="last_visit_time">last_visit_time</option>
+                    <option value="last_visit_time">last_visit_time</option> -->
                     </select>
                     <div class= "search-bar">
                         <input type="text" name="search-content" class="search-txt" placeholder="请输入搜索内容">
@@ -82,6 +88,9 @@
         }
     }
 ?> 
+
+
+<!--   ----------------------   下面是 添加 表单的内容   -->
 
             <form action="<?php echo "show_dat.php?table=$TABLE_NAME";?>"
             method='post'>

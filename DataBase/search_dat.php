@@ -55,42 +55,6 @@ body{
 .dept-table a:hover,input:hover{
     background-color:rgb(214, 186, 150);
 }
-#submit-but{
-    font-size: 14px;
-    background-color: rgb(36, 131, 194);
-    transition-duration: 0.4s;
-    border:1.5px solid antiquewhite;
-}
-#submit-but:hover{
-    background-color: rgb(21, 110, 170);
-}
-#cancel-but{
-    font-size: 14px;
-    background-color: rgb(223, 62, 137);
-    transition-duration: 0.4s;
-    border:1.5px solid antiquewhite;
-}
-#cancel-but:hover{
-    background-color: rgb(190, 34, 107);
-}
-.add-button{
-    margin-top:15px;
-}
-.add-button form input{
-    padding:2px 12px 2px;
-    background-color:antiquewhite;
-    border:1px solid rgb(13, 56, 59);
-    border-radius:6px;
-    font-size:20px;
-    font-weight: bold;
-    text-decoration:none;
-    color:rgb(13, 56, 59);
-    transition-duration:0.6s;
-    cursor: pointer;
-}
-.add-button input:hover{
-    padding:2px 18px 2px;
-}
 
 
         </style>
@@ -101,6 +65,17 @@ body{
     if(isset($_GET['table'])){
         $TABLE_NAME = $_GET['table'];
     }
+    $condition = $_POST['choose'];
+    $TARGET = $_POST['search-content'];
+    $query = "select * from $TABLE_NAME where $condition = '$TARGET'";  
+    $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
+    $table_row_names = array();
+    $table_row_num = mysqli_num_fields($res);
+    for($i=0 ;$i < $table_row_num ;$i++){ //用一个数组存储所有列的名字
+        $table_each_row = mysqli_fetch_field($res); //获取第i个列名字
+        array_push($table_row_names,$table_each_row->name); //添加数组到尾部
+    }
+
 ?>
         <div class="headlogo"><?php echo $TABLE_NAME ?></div>
         <div class="home-button">
@@ -111,11 +86,13 @@ body{
                     cellpadding="5px" cellspacing="5px"
                     border="5" >
                 <tr>
-                    <th>CID</th>
-                    <th>NAME</th>
-                    <th>CITY</th>
-                    <th>MADE</th>
-                    <th>LAST-TIME</th>
+<?php
+        for($i=0 ;$i < $table_row_num ;$i++){
+            echo "<th>$table_row_names[$i]</th>";
+        }
+?>
+                    <th>ADD</th>
+                    <th>DELETE</th>
                 </tr>
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>"
             method='post'>
@@ -124,35 +101,24 @@ body{
 
 
 <?php
-    $condition = $_POST['choose'];
-    $TARGET = $_POST['search-content'];
-    $query = "select * from customers where $condition = '$TARGET'";  
-    $res = mysqli_query($conn, $query) or die(mysqli_error($conn));
     $row = mysqli_num_rows($res);    //如果查询成功这里返回真否则为假
-    if($row){
+    if($row){  //在这里输出整张数据表!!!
         for($i = 0 ;$i < $row ;$i++){
             $dbrow=mysqli_fetch_array($res); //获取每一行的段数据
-            $cid = $dbrow['cid'];
-            $cname = $dbrow['cname'];
-            $city = $dbrow['city'];
-            $visits_made = $dbrow['visits_made'];
-            $visits_time = $dbrow['last_visit_time'];
-?>
-
-
-
- <?php  //插入到这里的表格当中
-    echo "
-    <tr>
-    <td>$cid</td>
-    <td>$cname</td>
-    <td>$city</td>
-    <td>$visits_made</td>
-    <td>$visits_time</td>
-    </tr>
-    ";
-}
-}
+            $data_each_row = array();//用来存储每一行的段数据
+            echo "<tr>";
+            for($j = 0 ;$j < $table_row_num ;$j++){
+                array_push($data_each_row,$dbrow[$table_row_names[$j]]);
+                echo "<td>$data_each_row[$j]</td>";//输出某一行的段数据
+            }
+            echo "
+            <td><a href=\"edit_dat.php?id=$data_each_row[0]&table=$TABLE_NAME\">修改</a></td>
+            <td><a href=\"delete_dat.php?id=$data_each_row[0]&table=$TABLE_NAME\" 
+                onclick=\"return confirm('确定删除吗？');\">删除</a></td> 
+            </tr>
+            ";
+        }
+    }
 ?> 
 
         </form>

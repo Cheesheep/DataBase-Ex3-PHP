@@ -27,6 +27,7 @@
                 color: antiquewhite;
             }
             .table01 td{
+                text-align:center;
                 background-color: rgb(85, 146, 146);
                 border-radius: 10px;
                 border: 5px solid;
@@ -45,20 +46,24 @@
         <div class="schema-box">
             <table class="table01" cellspacing="20px" cellpadding="5px">
                 <tr>
-                    <td>customers</td>
-                    <td class="check"><a href="./DataBase/show_dat.php?table=customers">查看</a></td>
+                    <td class="check">
+                        <a href="./DataBase/show_dat.php?table=customers">Customer</a>
+                    </td>
                 </tr>
                 <tr>
-                    <td>emp</td>
-                    <td class="check"><a href="./DataBase/show_dat?table=employees">查看</a></td>
+                    <td class="check">
+                        <a href="./DataBase/show_dat?table=employees">Emp</a>
+                    </td>
                 </tr>
                 <tr>
-                    <td>logs</td>
-                    <td class="check"><a href="./DataBase/show_dat?table=logs">查看</a></td>
+                    <td class="check">
+                        <a href="./DataBase/show_dat?table=logs">Logs</a>
+                    </td>
                 </tr>
                 <tr>
-                    <td>products</td>
-                    <td class="check"><a href="./DataBase/show_dat?table=products">查看</a></td>
+                    <td class="check">
+                        <a href="./DataBase/show_dat?table=products">Product</a>
+                    </td>
                 </tr>
             </table>
         </div>
