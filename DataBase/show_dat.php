@@ -64,14 +64,14 @@
 <?php
 
     $row = mysqli_num_rows($res);    //如果查询成功这里返回真否则为假
-    if($row){
+    if($row){  //在这里输出整张数据表!!!
         for($i = 0 ;$i < $row ;$i++){
             $dbrow=mysqli_fetch_array($res); //获取每一行的段数据
-            $data_each_row = array();
+            $data_each_row = array();//用来存储每一行的段数据
             echo "<tr>";
             for($j = 0 ;$j < $table_row_num ;$j++){
                 array_push($data_each_row,$dbrow[$table_row_names[$j]]);
-                echo "<td>$data_each_row[$j]</td>";
+                echo "<td>$data_each_row[$j]</td>";//输出某一行的段数据
             }
             echo "
             <td><a href=\"edit_dat.php?id=$data_each_row[0]&table=$TABLE_NAME\">修改</a></td>
@@ -114,13 +114,9 @@
         //     ";
     }
     if(isset($_POST["change"]) == "确定"){ //在这里完成数据库的插入
-        $cid=$_POST["cid"];
-        $cname=$_POST["cname"];
-        $city=$_POST["city"];
-        $visits_made=$_POST["visits_made"];
-        $visits_time=$_POST['last_visit_time'];
-        $query = "INSERT INTO customers (cid,cname,city,visits_made,last_visit_time)
-         VALUES ('$cid','$cname','$city','$visits_made','$visits_time')";
+        include("Dif_SQL.php");//引入用于数据库操作的文件
+        $query = insert_SQL($table_row_num,$TABLE_NAME,$table_row_names);//完成插入语句
+
         $result=mysqli_query($conn,$query) or die(mysqli_error($conn));
         
         if($result){

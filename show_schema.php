@@ -53,6 +53,10 @@
                     <td class="check"><a href="./DataBase/show_dat?table=employees">查看</a></td>
                 </tr>
                 <tr>
+                    <td>logs</td>
+                    <td class="check"><a href="./DataBase/show_dat?table=logs">查看</a></td>
+                </tr>
+                <tr>
                     <td>products</td>
                     <td class="check"><a href="./DataBase/show_dat?table=products">查看</a></td>
                 </tr>

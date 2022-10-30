@@ -43,7 +43,7 @@
         $city=$_POST["city"];
         $visits_made=$_POST["visits_made"];
         $visits_time=date("Y-m-d H:i:s");
-        $query = "Update customers set cname='$cname',
+        $query = "UPDATE customers SET cname='$cname',
         city='$city',visits_made='$visits_made',last_visit_time='$visits_time' 
         where cid='$cid'";
         $result=mysqli_query($conn,$query) or die(mysqli_error($conn));
