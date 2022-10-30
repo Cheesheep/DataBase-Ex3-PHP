@@ -48,5 +48,36 @@ function insert_SQL($nums,$TABLE_NAME,$row_names){
 
 */
 function Update_SQL($nums,$TABLE_NAME,$row_names){
+    $row_data = array();//用来存储获取到的列数据
+    $query = "";//定义sql语句
+    for($i=0 ;$i < $nums;$i++){
+        array_push($row_data,$_POST[$row_names[$i]]); //将获取的post数据放入这个数组当中
+    }
 
+    switch($TABLE_NAME){
+        case 'customers':
+            $query = "UPDATE $TABLE_NAME SET $row_names[1]='$row_data[1]',$row_names[2]='$row_data[2]',
+            $row_names[3]='$row_data[3]',$row_names[4]='$row_data[4]'
+            WHERE $row_names[0]= '$row_data[0]'
+            "; 
+            break;
+        case 'employees':
+            $query = "UPDATE $TABLE_NAME SET $row_names[1]='$row_data[1]',$row_names[2]='$row_data[2]'
+            WHERE $row_names[0]= '$row_data[0]'
+            "; 
+            break;
+        case 'logs':
+            $query = "UPDATE $TABLE_NAME SET $row_names[1]='$row_data[1]',$row_names[2]='$row_data[2]',
+            $row_names[3]='$row_data[3]',$row_names[4]='$row_data[4]',$row_names[5]='$row_data[5]'
+            WHERE $row_names[0]= '$row_data[0]'
+            "; 
+            break;
+        case 'products':
+            $query = "UPDATE $TABLE_NAME SET $row_names[1]='$row_data[1]',$row_names[2]='$row_data[2]',
+            $row_names[3]='$row_data[3]',$row_names[4]='$row_data[4]',$row_names[5]='$row_data[5]'
+            WHERE $row_names[0]= '$row_data[0]'
+            "; 
+            break;
+    }
+    return $query;
 }
