@@ -41,11 +41,6 @@
             echo "<option value='$table_row_names[$i]'>$table_row_names[$i]</th>";
         }
 ?>
-                    <!-- <option value="cid">cid</option>
-                    <option value="cname">cname</option>
-                    <option value="city">city</option>
-                    <option value="visits_made">visits_made</option>
-                    <option value="last_visit_time">last_visit_time</option> -->
                     </select>
                     <div class= "search-bar">
                         <input type="text" name="search-content" class="search-txt" placeholder="请输入搜索内容">

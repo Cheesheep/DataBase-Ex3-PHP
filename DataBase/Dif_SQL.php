@@ -27,16 +27,26 @@ function insert_SQL($nums,$TABLE_NAME,$row_names){
             $query = "INSERT INTO $TABLE_NAME
                 VALUES ('$row_data[0]','$row_data[1]','$row_data[2]')"; 
             break;
-        case 'logs':
+        case 'logs'://这个的id是自增长的所以不用算上第一个
             $query = "INSERT INTO $TABLE_NAME (who,time,table_name,operation,key_value)
                 VALUES ('$row_data[1]','$row_data[2]','$row_data[3]',
                 '$row_data[4]','$row_data[5]')"; 
             break;
         case 'products':
             $query = "INSERT INTO $TABLE_NAME
-                VALUES ('$row_data[0]','$row_data[1]','$row_data[2]')"; 
+                VALUES ('$row_data[0]','$row_data[1]','$row_data[2]',
+                '$row_data[3]','$row_data[4]','$row_data[5]','$row_data[6]')"; 
             break;        
-
+        case 'purchases':
+            $query = "INSERT INTO $TABLE_NAME
+                VALUES ('$row_data[0]','$row_data[1]','$row_data[2]',
+                '$row_data[3]','$row_data[4]','$row_data[5]','$row_data[6]')"; 
+            break;  
+        case 'suppliers':
+            $query = "INSERT INTO $TABLE_NAME
+                VALUES ('$row_data[0]','$row_data[1]','$row_data[2]',
+                '$row_data[3]')"; 
+            break;    
     }
 
     return $query;
@@ -78,6 +88,19 @@ function Update_SQL($nums,$TABLE_NAME,$row_names){
             WHERE $row_names[0]= '$row_data[0]'
             "; 
             break;
+        case 'purchases':
+            $query = "UPDATE $TABLE_NAME SET $row_names[1]='$row_data[1]',$row_names[2]='$row_data[2]',
+            $row_names[3]='$row_data[3]',$row_names[4]='$row_data[4]',$row_names[5]='$row_data[5]',
+            $row_names[6]='$row_data[6]'
+            WHERE $row_names[0]= '$row_data[0]'
+            "; 
+            break;
+        case 'suppliers':
+            $query = "UPDATE $TABLE_NAME SET $row_names[1]='$row_data[1]',$row_names[2]='$row_data[2]',
+            $row_names[3]='$row_data[3]'
+            WHERE $row_names[0]= '$row_data[0]'
+            "; 
+            break;            
     }
     return $query;
 }

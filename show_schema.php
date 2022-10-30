@@ -30,9 +30,14 @@
                 text-align:center;
                 background-color: rgb(85, 146, 146);
                 border-radius: 10px;
-                border: 5px solid;
+                border: 4px solid;
+                -webkit-transition-duration:0.4s;
+                transition-duration: 0.4s;
             }
-            
+            .table01 td:hover{
+                background-color:rgb(67, 134, 134) ;
+            }
+
             a{
                 text-decoration: none;
                 color: antiquewhite;
@@ -63,6 +68,16 @@
                 <tr>
                     <td class="check">
                         <a href="./DataBase/show_dat?table=products">Product</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="check">
+                        <a href="./DataBase/show_dat?table=purchases">Purchases</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="check">
+                        <a href="./DataBase/show_dat?table=suppliers">Suppliers</a>
                     </td>
                 </tr>
             </table>
