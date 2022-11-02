@@ -103,19 +103,6 @@
         <td><a href='./show_dat?table=$TABLE_NAME' id='cancel-but'> 取消</a></td>
         </tr>
         ";
-
-        // echo "
-        // <tr>
-        //     <td><input type='text' name='cid' id='in-text'></td>
-        //     <td><input type='text' name='cname' id='in-text'></td>
-        //     <td><input type='text' name='city' id='in-text'></td>
-        //     <td><input type='text' name='visits_made' id='in-text'></td>
-        //     <td>Current Time</td>
-        //     <td><input type='submit' name='change'
-        //             value='确定' id='submit-but'></td>
-        //     <td><a href='./show_dat?table=$TABLE_NAME' id='cancel-but'> 取消</a></td>
-        //     </tr>
-        //     ";
     }
     if(isset($_POST["change"]) == "确定"){ //在这里完成数据库的插入
         include("Dif_SQL.php");//引入用于数据库操作的文件
@@ -133,7 +120,6 @@
             window.location.href='show_dat.php?table=$TABLE_NAME';</script>";
 
         }
-
     }   
 ?>
             </form>

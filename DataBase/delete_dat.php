@@ -16,6 +16,6 @@ $result1 = mysqli_query($conn,$sql) or die(mysqli_error($conn));
 if($result1)
 {
     echo "<script language=javascript>
-    window.location.href='show_dat.php?table=$TABLE_NAME';</script>";
+    window.location.href='show_dat.php?table=$TABLE_NAME';</script>";//返回
 } 
 ?>
